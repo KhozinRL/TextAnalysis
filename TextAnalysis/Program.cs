@@ -9,13 +9,23 @@ namespace TextAnalysis
         static void Main(string[] args)
         {
             StreamReader sr;
+
+            try
+            {
+                sr = new StreamReader(args[0]);
+            }
+            catch (Exception e){
+                Console.WriteLine("Ошибка! {0}", e.Message);
+                return;
+            }
+
             string[] str;
             int phoneErr = 0, phoneCorr = 0, emailErr = 0, emailCorr = 0, employees = 0;
             Regex nameReg = new Regex(@"\w+(\u0020\w+)?");
             Regex emailReg = new Regex(@"^[^\s@]+@[a-z]+\.[a-z]{2,64}$");
             Regex phoneReg = new Regex(@"^(\+7|8)[-\(\s]?\d{3}[-\)\s]?\d{3}([-\s]?\d{2}){2}$");
 
-            using (sr = new StreamReader(@"C:\Users\79166\source\repos\TextAnalysis\Book.csv"))
+            using (sr) //@"C:\Users\79166\source\repos\TextAnalysis\Book.csv"
             {
                 string[] fields = sr.ReadLine().Trim().Split('\t');
 
